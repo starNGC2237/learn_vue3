@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        let person = {
+            name:'张三',
+            age:18
+        }
+        // 模拟vue2实现响应式
+        // #region
+        /*
+        let p = {
+            
+        }
+        Object.defineProperty(p,'name',{
+            get(){
+                return person.name;
+            },
+            set(v){
+                console.log('有人修改了name，我要去更新界面');
+                person.name = v
+            }
+        })
+        Object.defineProperty(p,'age',{
+            get(){
+                return person.age;
+            },
+            set(v){
+                console.log('有人修改了age，我要去更新界面');
+                person.age = v
+            }
+        })
+    
+        */
+        // #endregion
+        
+        
+        // 模拟Vue3中实现响应式,通过Proxy拦截对象变化，通过Reflect对于源对象的属性进行操作
+        //#region 
+        const p = new Proxy(person,{
+            get(target,propName){
+                console.log(`有人读取了${target}上的${propName}属性`)
+                return Reflect.get(target,propName)
+            },
+            set(target,propName,value){
+                console.log(`有人修改或增加了${target}上的${propName}属性，为${value}，要更新页面`)
+                Reflect.set(target,propName,value)
+            },
+            deleteProperty(target,propName){
+                console.log(`有人删除了${target}上的${propName}属性，要更新页面`)
+                return Reflect.deleteProperty(target,propName)
+            }
+        } )
+        //#endregion
+        /*
+        let obj = {a:1,b:2}
+        Reflect.defineProperty(obj,'c',{
+            get(){
+                return 3
+            }
+        })
+        */
+        
+        </script>
+</body>
+</html>

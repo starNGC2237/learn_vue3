@@ -1,5 +1,8 @@
 <template>
-    <DemoOne>
+    <DemoOne @hello="showHelloMsg" msg="你好啊" school="1111111111111">
+        <template v-slot:qwe>
+            <span>school</span>
+        </template>
     </DemoOne>
     
 </template>

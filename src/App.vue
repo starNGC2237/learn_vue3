@@ -1,21 +1,30 @@
 <template>
-    <button @click="isShow = !isShow">切换</button>
-    <DemoOne v-if="isShow"></DemoOne>
+  <div class="app">
+    <h3>我是APP</h3>
+    <Suspense>
+      <template v-slot:default>
+        <AppChild></AppChild>
+      </template>
+      <template v-slot:fallback>
+        <h3>加载中...</h3>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script>
-import DemoOne from "./components/DemoOne.vue";
-import { ref } from "vue";
+// import AppChild from "@/components/Child.vue";
+import {defineAsyncComponent} from 'vue'
+const AppChild = defineAsyncComponent(()=>import('./components/Child.vue'))
 export default {
     name: "App",
-    components: { DemoOne },
-    setup() {
-        let isShow = ref(true);
-        return {
-            isShow,
-        };
-    },
+    components: {AppChild},
 };
 </script>
 
-<style></style>
+<style>
+.app{
+  background-color: gray;
+  padding: 10px;
+}
+</style>
